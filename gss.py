@@ -15,8 +15,35 @@ class GoldenSectionSearch:
 
     def get_extremum(self, f):
         """Gets extremum of given function f"""
-        return f(3)
 
+        """Golden ratio"""
+        k = (math.sqrt(5) - 1) / 2
+
+        x1 = self.a + k * (self.b - self.a)
+        x2 = self.b - k * (self.b - self.a)
+
+        while (self.b - self.a) <= 2 * self.precision:
+            if f(x1) <= f(x2):
+                self.a = self.a
+                self.b = x2
+                x2 = x1
+                x1 = self.a + k * (self.b - self.a)
+            elif f(x1) > f(x2):
+                b = b
+                a = x1
+                x1 = x2
+                x2 = self.b - k * (self.b - self.a)
+
+        return (self.a + self.b) / 2
+
+
+gss = GoldenSectionSearch()
+gss.set_parameters(-1, 1, 0.001)
+
+f = lambda x: math.exp(x) - x
+
+extremum = gss.get_extremum(f)
+print(extremum)
 
 # --- EXAMPLE USAGE ---
 

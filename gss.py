@@ -19,31 +19,32 @@ class GoldenSectionSearch:
         """Golden ratio"""
         k = (math.sqrt(5) - 1) / 2
 
-        x1 = self.a + k * (self.b - self.a)
-        x2 = self.b - k * (self.b - self.a)
+        a = self.a
+        b = self.b
 
-        while (self.b - self.a) <= 2 * self.precision:
+        x1 = a + k * (b - a)
+        x2 = b - k * (b - a)
+
+        while (b - a) <= 2 * self.precision:
             if f(x1) <= f(x2):
-                self.a = self.a
-                self.b = x2
+                a = a
+                b = x2
                 x2 = x1
-                x1 = self.a + k * (self.b - self.a)
+                x1 = a + k * (b - a)
             elif f(x1) > f(x2):
                 b = b
                 a = x1
                 x1 = x2
-                x2 = self.b - k * (self.b - self.a)
+                x2 = b - k * (b - a)
 
-        return (self.a + self.b) / 2
+        extremum = (self.a + self.b) / 2
 
-
-gss = GoldenSectionSearch()
-gss.set_parameters(-1, 1, 0.001)
-
-f = lambda x: math.exp(x) - x
-
-extremum = gss.get_extremum(f)
-print(extremum)
+        if extremum > f(self.a):
+            return self.a
+        elif extremum > f(self.b):
+            return self.b
+        else:
+            return (self.a + self.b) / 2
 
 # --- EXAMPLE USAGE ---
 
